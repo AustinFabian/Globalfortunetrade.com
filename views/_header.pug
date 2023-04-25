@@ -1,0 +1,55 @@
+header#header
+        // padding-sm, padding-md, padding-lg
+        .wrap-header--padding-md
+          nav.main-navigation
+            // Header Logo
+            // class: height-sm, height-md, height-lg
+            #logo.height-lg
+              a.navbar-brand(href='/')
+                picture.colored
+                  img(src='trade/assets/img/logo.png', alt='Logo')
+            // END Header Logo
+            // Menu
+            #main-menu(aria-expanded='false', role='navigation')
+              .menu-holder(data-hidden='lg')
+                ul
+                  li
+                    a(href='/') Home
+                  li
+                    a(href='/about') About
+                  li
+                    a(href='/faqs') FAQ&apos;s
+                  li
+                    a(href='/contact-us') Contact Us
+                  li
+                    a(href='/login') Login
+              // Menu Cta
+              .cta
+                a.btn--medium--round--border(href='/signup') Signup
+              // END Menu Cta
+              // Hamburger Menu
+              .menu-button(data-visible='lg')
+                .icons
+                  span.bar.bar-1
+                  span.bar.bar-2
+                  span.bar.bar-3
+              // END: Hamburger Menu
+            // Mobile Menu
+            #mobile-menu(data-visible='lg', aria-expanded='false', role='navigation')
+              // class: -bg
+              .mobile-wrap
+                // class: -dotted, -border
+                .main-links--border.col-12
+                  ul
+                    li
+                      a(href='/') Home
+                    li
+                      a(href='/about') About
+                    li
+                      a(href='/faqs') FAQ&apos;s
+                    li
+                      a(href='/contact-us') Contact Us
+                    li
+                      a(href='/login') Login
+                    li
+                      a(href='/signup') Signup

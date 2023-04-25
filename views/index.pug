@@ -1,0 +1,311 @@
+doctype html
+html(lang='en')
+  head
+    title
+      | Globalfortunetradefx.com
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=1250, initial-scale=0.0')
+    meta(name='format-detection', content='telephone=no')
+    meta(name='msapplication-tap-highlight', content='no')
+    meta(name='theme-color', content='#000')
+    meta(name='description', content='')
+    meta(name='author', content='Patrick David')
+    // Favicons
+    link(rel='icon shortcut', href='trade/assets/img/logo.png', sizes='16x16', type='image/png')
+    link(rel='icon', href='trade/assets/img/logo.png', sizes='32x32', type='image/png')
+    link(rel='icon', href='trade/assets/img/favicon-48.png', sizes='48x48', type='image/png')
+    link(rel='icon', href='trade/assets/img/favicon-62.png', sizes='62x62', type='image/png')
+    link(rel='icon', href='trade/assets/img/favicon-96.png', sizes='96x96', type='image/png')
+    // Canonical
+    link(rel='canonical', href='index.html')
+    // Open Graph
+    meta(property='og:image', content='')
+    meta(property='og:title', content='')
+    meta(property='og:description', content='')
+    meta(property='og:url', content='')
+    // Twitter
+    meta(name='twitter:card', content='summary')
+    meta(name='twitter:site', content='')
+    meta(name='twitter:creator', content='')
+    meta(name='twitter:url', content='')
+    meta(name='twitter:title', content='')
+    meta(name='twitter:description', content='')
+    meta(name='twitter:image', content='')
+    // Custom css
+    link(rel='stylesheet', href='trade/assets/css/style.css')
+  body
+    // Main Wrap
+    #main-wrap
+      // Header & Menu
+      // class: fixed, bg, white, transparent
+      include _header
+      // END Mobile Menu
+      // END Header & Menu
+      // Page Header
+      // class: image, round, hfixedlg, hfixedmd, hfixedsm
+      .page-header--image(data-padding='', data-overlay='')
+        .imagebg
+          img(data-unveil='', src='#', data-src='trade/assets/img/header-home.jpg', data-src-retina='trade/assets/img/header-home.jpg', alt='')
+        .container
+          .row
+            .col-12.col-lg-6.col-xl-5(data-aos='fade-up')
+              .sectiontitle-element--light
+                h1.big INVEST IN CRYPTOCURRENCY WITH Globalfortunetradefx
+                p
+                  | Learn how to invest in cryptocurrency and expand your financial and lifestyle options.
+                a.btn--big--round--border--light(href='/signup') Register
+      // END Page Header
+      .elementor-shortcode
+        div(style='width: 100%; height:40px; background-color: #FFFFFF; overflow:hidden; box-sizing: border-box; border: 1px solid #56667F; border-radius: 4px; text-align: right; line-height:14px; block-size:40px; font-size: 12px; box-sizing:content-box; font-feature-settings: normal; text-size-adjust: 100%; box-shadow: inset 0 -20px 0 0 #FFFFFF;padding:1px;padding: 0px; margin: 0px;')
+          div(style='height:40px;')
+            iframe(src='https://widget.coinlib.io/widget?type=horizontal_v2&theme=light&pref_coin_id=1505&invert_hover=', width='100%', height='36', scrolling='auto', marginwidth='0', marginheight='0', frameborder='0', border='0', style='border:0;margin:0;padding:0;')
+      // Page Content
+      .page-content
+        // Intro Section
+        section(data-padding='')
+          .container
+            .row(data-aos='fade-up', data-padding='xstop')
+              .col-12
+                .sectiontitle-element--center
+                  span.toptitle COMPANY OBEJECTIVE
+                  h2
+                    | We&rsquo;re looking for long-term goals. People with the courage to take chances. Who understand that making a difference takes passion, patience, and persistence.
+        // END Intro Section
+        // Page Header
+        // class: image, round, hfixedlg, hfixedmd, hfixedsm
+        .page-header(data-padding='top')
+          .container
+            .row(data-padding='smbottom')
+              .col-12
+                .sectiontitle-element--center
+                  h1.big(data-aos='fade-up', data-aos-delay='100') INVESTMENT PLANS
+                  p(data-aos='fade-up', data-aos-delay='200') Find a Plan To Suit Your Budget
+        // END Page Header
+        // Page Content
+        .page-content
+          // Plans
+          section(data-padding='bottom', data-bg-bottom='grey')
+            .container
+              .row(data-padding='xstop')
+                // Plan
+                each roi in rois
+                  .col-12.col-lg-4(data-aos='fade-up')
+                    .plan-element--box--border--round--center
+                      .text
+                        .sectiontitle-element
+                          .icon--square
+                            i.ilight.feather.icon-circle
+                          h3 #{roi.planName.toUpperCase()}
+                        .price
+                          span
+                            strong #{roi.roi}% After #{roi.duration} Hours
+                        .list-element
+                          ul
+                            li Minimum: $#{roi.minAmount}
+                            li Maximum: $#{roi.maxAmount}
+                            li Profit (%) #{roi.roi}%
+                            li Withdraw Type Instant
+                            li 24/7 Customer Support
+                          a.btn--big--round--border(href='/signup') Invest Now
+                
+          // END Plans
+          // Page Content
+          .page-content
+            // Plans
+            section(data-padding='bottom', data-bg-bottom='grey')
+              .container
+                .row(data-padding='xstop')
+                  // Plan
+                  .col-12.col-lg-4(data-aos='fade-up')
+                    .plan-element--box--border--round--center
+                      .text
+                        .sectiontitle-element
+                          .icon--square
+                            i.ilight.feather.icon-circle
+                          h3 HOURLY VIP PLAN
+                        .price
+                          span
+                            strong 13% After 16 Hours
+                        .list-element
+                          ul
+                            li Minimum: $4,099
+                            li Maximum: $6,999
+                            li Profit (%) 13%
+                            li Withdraw Type Instant
+                            li 24/7 Customer Support
+                          a.btn--big--round--border(href='/signup') Invest Now
+                  // END Plan
+                  .col-12.col-lg-4(data-aos='fade-up', data-aos-delay='100')
+                    .plan-element--box--border--round--colorone--center
+                      .text
+                        .sectiontitle-element
+                          .icon--square
+                            i.ilight.feather.icon-stop-circle
+                          h3 HOURLY VIP PLAN
+                        .price
+                          span
+                            strong 16.55% After 12 Hours
+                        .list-element
+                          ul
+                            li Minimum: $7,099
+                            li Maximum: $9,999
+                            li Profit (%) 16.55%
+                            li Withdraw Type Instant
+                            li 24/7 Customer Support
+                          a.btn--big--round--colorone(href='/signup') Invest Now
+                  .col-12.col-lg-4(data-aos='fade-up', data-aos-delay='200')
+                    .plan-element--box--border--round--center
+                      .text
+                        .sectiontitle-element
+                          .icon--square
+                            i.ilight.feather.icon-star
+                          h3 HOURLY VIP PLAN
+                        .price
+                          span
+                            strong 17% After 8 Hours
+                        .list-element
+                          ul
+                            li Minimum: $10,100
+                            li Maximum: $UNLIMITED
+                            li Profit(%) 17%
+                            li Withdraw Type Instant
+                            li 24/7 Customer Support
+                          a.btn--big--round--border(href='/signup') Invest Now
+            // END Plans
+          // END Page Content
+          // Separator
+          section(data-aos='zoom-in', data-padding='bottom')
+            .container
+              .row(data-padding='xs')
+                .col-12
+                  .separator-element--lg--center
+          // END: Separator
+          // Info Section
+          section(data-padding='bottom')
+            .container
+              .row.align-items-lg-center
+                .col-12.col-lg-5(data-aos='zoom-in')
+                  .square-element
+                    .info
+                      .image
+                        img(data-unveil='', src='trade/assets/img/homeagency.png', data-src='trade/assets/img/homeagency.png', data-src-retina='trade/assets/img/homeagency.png', alt='', style='opacity: 1;')
+                .col-12.col-lg-6(data-aos='fade-in', data-aos-delay='200')
+                  .sectiontitle-element
+                    span.toptitle About Us
+                    h2
+                      | SIT BACK, RELAX AND WATCH YOUR FINANCES GROW!
+                    p
+                      | Globalfortunetradefx.com is a leading global manager of financial investments.
+                      | We have learned from every deal and market cycle to build client relationships that have crossed generations, offering a diverse and truly global investment portfolio.
+                      | With a work ethic that is both entrepreneurial in spirit and institutional in practice, and a policy of investment that we seek to make both responsible and profitable, we aim to generate strong performance for our valued investors around the world.
+                    a.btn--big--arrow--round(href='#') Learn more
+          // END: Info Section
+          // List Section
+          section(data-padding='top', data-bg='grey')
+            .container
+              .row(data-aos='fade-up')
+                .col-12
+                  .sectiontitle-element--center
+                    span.toptitle Our Services
+                    h2 WE TRADE 24 HOURS AND EVERYDAY. WE ARE TRANSPARENT.
+              .row(data-padding='')
+                .col-12.col-xs-4.col-sm-4(data-aos='fade-in', data-aos-delay='100')
+                  .list-element--plus
+                    h3.md.f500 Fill Up Your Form
+                    ul
+                      li Set up your account within Few seconds to start earning with us.
+                .col-12.col-xs-4.col-sm-4(data-aos='fade-in', data-aos-delay='200')
+                  .list-element--plus
+                    h3.md.f500 Purchase a Plan
+                    ul
+                      li Simply choose your mode of payment and purchase a plan based on your budgets.
+                .col-12.col-xs-4.col-sm-4(data-aos='fade-in', data-aos-delay='300')
+                  .list-element--plus
+                    h3.md.f500 DETAILED STATISTICS
+                    ul
+                      li
+                        | Get detailed statistics of your plans purchased with capital-trade.uk and the daily returns you are getting from them.
+          // END: List Section
+          // Testimonial Section
+          section(data-padding='', data-bg='template')
+            .container
+              .row.align-items-md-center
+                .col-md-6(data-aos='fade')
+                  .icon-element--testimonial
+                    .info
+                      .text
+                        p
+                          | &ldquo;Globalfortunetradefx focuses on building an ecosystem of partners across industry domains and technologies. We offer 
+                          strong 8%
+                          |  of the investor&rsquo;s amount as commission to affiliates. Due to the high value of the investor&rsquo;s amount, affiliates stand to make serious money. Likewise, during times of economic prosperity, many invest in equities and other products that are traditionally thought to produce long term gains.
+                        span.author
+                          | Martin Drew 
+                          em.meta Head of Trading Department
+                        img.logo(data-unveil='', src='#', data-src='trade/assets/img/logo-placeholder-2.png', data-src-retina='trade/assets/img/logo-placeholder-2.png', alt='')
+                .col-md-5.offset-md-1(data-aos='zoom-in', data-aos-delay='200')
+                  .wrapimage-element--square
+                    img(data-unveil='', src='#', data-src='trade/assets/img/author-big.jpg', data-src-retina='trade/assets/img/author-big.jpg', alt='')
+          // END: Testimonial Section
+          style.
+            .dark
+            {
+            color: #fff;
+            background-color: #212529;
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 1rem;
+            display: table;
+            border-collapse: separate;
+            box-sizing: border-box;
+            border-spacing: 2px;
+            border-color: grey;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            vertical-align: baseline;
+            font-weight: 400;
+            overflow-x: hidden;
+            line-height: 50px;
+            padding-left: 30px;
+            }
+          // Blog Section
+          section(data-padding='')
+            .container
+              .row(data-aos='fade')
+                .col-12
+                  .sectiontitle-element--inline.align-items-md-end
+                    .wrapper
+                      span.toptitle
+                      h2 Our Real Time Statistics
+              
+          // END: Blog Section
+          // CTA Section
+          section(data-aos='fade', data-padding='xstop')
+            .container
+              .row
+                .col-12
+                  .ctabox-element--center--round--light
+                    .text
+                      h2 EARN 8% AFFLIATES COMMISSION
+                      p Globalfortunetradefx is a registered and licenced company in United Kingdom
+                      a.btn--big--border--light--round(href='trade/images/cert222.png', target='_self') VIEW INCOPORATION CERTIFICATE
+          // END: CTA Section
+        // END: Page Content
+        // Footer
+        include _footer
+        // END: Footer
+      // END: Main Wrap
+      // Scripts
+      script(src='trade/assets/js/master-dist.js')
+      // END Scripts
+      // Global site tag (gtag.js) - Google Analytics
+      script(async='', src='https://www.googletagmanager.com/gtag/js?id=UA-164617531-1')
+      script.
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+        dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-164617531-1');
+      script(src='http://code.jivosite.com/widget/hCe0shBKbU', async='')
+  // Mirrored from Globalfortunetradefx.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 08 Apr 2023 20:38:44 GMT

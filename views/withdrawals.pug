@@ -1,0 +1,896 @@
+html(lang='en')
+  head
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    // Title
+    title globalfortunetradefx.com
+    // Styles
+    link(href='https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap', rel='stylesheet')
+    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(href='trade/1/assets/plugins/bootstrap/css/bootstrap.min.css', rel='stylesheet')
+    link(href='trade/1/assets/plugins/font-awesome/css/all.min.css', rel='stylesheet')
+    // Theme Styles
+    link(href='trade/1/assets/css/lime.min.css', rel='stylesheet')
+    link(href='trade/1/assets/css/custom.css', rel='stylesheet')
+    style(type='text/css').
+      .apexcharts-canvas {
+      position: relative;
+      user-select: none;
+      /* cannot give overflow: hidden as it will crop tooltips which overflow outside chart area */
+      }
+      /* scrollbar is not visible by default for legend, hence forcing the visibility */
+      .apexcharts-canvas ::-webkit-scrollbar {
+      -webkit-appearance: none;
+      width: 6px;
+      }
+      .apexcharts-canvas ::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: rgba(0,0,0,.5);
+      box-shadow: 0 0 1px rgba(255,255,255,.5);
+      -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+      }
+      .apexcharts-canvas.dark {
+      background: #343F57;
+      }
+      .apexcharts-inner {
+      position: relative;
+      }
+      .legend-mouseover-inactive {
+      transition: 0.15s ease all;
+      opacity: 0.20;
+      }
+      .apexcharts-series-collapsed {
+      opacity: 0;
+      }
+      .apexcharts-gridline, .apexcharts-text {
+      pointer-events: none;
+      }
+      .apexcharts-tooltip {
+      border-radius: 5px;
+      box-shadow: 2px 2px 6px -4px #999;
+      cursor: default;
+      font-size: 14px;
+      left: 62px;
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      top: 20px;
+      overflow: hidden;
+      white-space: nowrap;
+      z-index: 12;
+      transition: 0.15s ease all;
+      }
+      .apexcharts-tooltip.light {
+      border: 1px solid #e3e3e3;
+      background: rgba(255, 255, 255, 0.96);
+      }
+      .apexcharts-tooltip.dark {
+      color: #fff;
+      background: rgba(30,30,30, 0.8);
+      }
+      .apexcharts-tooltip * {
+      font-family: inherit;
+      }
+      .apexcharts-tooltip .apexcharts-marker,
+      .apexcharts-area-series .apexcharts-area,
+      .apexcharts-line {
+      pointer-events: none;
+      }
+      .apexcharts-tooltip.active {
+      opacity: 1;
+      transition: 0.15s ease all;
+      }
+      .apexcharts-tooltip-title {
+      padding: 6px;
+      font-size: 15px;
+      margin-bottom: 4px;
+      }
+      .apexcharts-tooltip.light .apexcharts-tooltip-title {
+      background: #ECEFF1;
+      border-bottom: 1px solid #ddd;
+      }
+      .apexcharts-tooltip.dark .apexcharts-tooltip-title {
+      background: rgba(0, 0, 0, 0.7);
+      border-bottom: 1px solid #333;
+      }
+      .apexcharts-tooltip-text-value,
+      .apexcharts-tooltip-text-z-value {
+      display: inline-block;
+      font-weight: 600;
+      margin-left: 5px;
+      }
+      .apexcharts-tooltip-text-z-label:empty,
+      .apexcharts-tooltip-text-z-value:empty {
+      display: none;
+      }
+      .apexcharts-tooltip-text-value,
+      .apexcharts-tooltip-text-z-value {
+      font-weight: 600;
+      }
+      .apexcharts-tooltip-marker {
+      width: 12px;
+      height: 12px;
+      position: relative;
+      top: 0px;
+      margin-right: 10px;
+      border-radius: 50%;
+      }
+      .apexcharts-tooltip-series-group {
+      padding: 0 10px;
+      display: none;
+      text-align: left;
+      justify-content: left;
+      align-items: center;
+      }
+      .apexcharts-tooltip-series-group.active .apexcharts-tooltip-marker {
+      opacity: 1;
+      }
+      .apexcharts-tooltip-series-group.active, .apexcharts-tooltip-series-group:last-child {
+      padding-bottom: 4px;
+      }
+      .apexcharts-tooltip-series-group-hidden {
+      opacity: 0;
+      height: 0;
+      line-height: 0;
+      padding: 0 !important;
+      }
+      .apexcharts-tooltip-y-group {
+      padding: 6px 0 5px;
+      }
+      .apexcharts-tooltip-candlestick {
+      padding: 4px 8px;
+      }
+      .apexcharts-tooltip-candlestick > div {
+      margin: 4px 0;
+      }
+      .apexcharts-tooltip-candlestick span.value {
+      font-weight: bold;
+      }
+      .apexcharts-tooltip-rangebar {
+      padding: 5px 8px;
+      }
+      .apexcharts-tooltip-rangebar .category {
+      font-weight: 600;
+      color: #777;
+      }
+      .apexcharts-tooltip-rangebar .series-name {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+      }
+      .apexcharts-xaxistooltip {
+      opacity: 0;
+      padding: 9px 10px;
+      pointer-events: none;
+      color: #373d3f;
+      font-size: 13px;
+      text-align: center;
+      border-radius: 2px;
+      position: absolute;
+      z-index: 10;
+      background: #ECEFF1;
+      border: 1px solid #90A4AE;
+      transition: 0.15s ease all;
+      }
+      .apexcharts-xaxistooltip.dark {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(0, 0, 0, 0.5);
+      color: #fff;
+      }
+      .apexcharts-xaxistooltip:after, .apexcharts-xaxistooltip:before {
+      left: 50%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      }
+      .apexcharts-xaxistooltip:after {
+      border-color: rgba(236, 239, 241, 0);
+      border-width: 6px;
+      margin-left: -6px;
+      }
+      .apexcharts-xaxistooltip:before {
+      border-color: rgba(144, 164, 174, 0);
+      border-width: 7px;
+      margin-left: -7px;
+      }
+      .apexcharts-xaxistooltip-bottom:after, .apexcharts-xaxistooltip-bottom:before {
+      bottom: 100%;
+      }
+      .apexcharts-xaxistooltip-top:after, .apexcharts-xaxistooltip-top:before {
+      top: 100%;
+      }
+      .apexcharts-xaxistooltip-bottom:after {
+      border-bottom-color: #ECEFF1;
+      }
+      .apexcharts-xaxistooltip-bottom:before {
+      border-bottom-color: #90A4AE;
+      }
+      .apexcharts-xaxistooltip-bottom.dark:after {
+      border-bottom-color: rgba(0, 0, 0, 0.5);
+      }
+      .apexcharts-xaxistooltip-bottom.dark:before {
+      border-bottom-color: rgba(0, 0, 0, 0.5);
+      }
+      .apexcharts-xaxistooltip-top:after {
+      border-top-color:#ECEFF1
+      }
+      .apexcharts-xaxistooltip-top:before {
+      border-top-color: #90A4AE;
+      }
+      .apexcharts-xaxistooltip-top.dark:after {
+      border-top-color:rgba(0, 0, 0, 0.5);
+      }
+      .apexcharts-xaxistooltip-top.dark:before {
+      border-top-color: rgba(0, 0, 0, 0.5);
+      }
+      .apexcharts-xaxistooltip.active {
+      opacity: 1;
+      transition: 0.15s ease all;
+      }
+      .apexcharts-yaxistooltip {
+      opacity: 0;
+      padding: 4px 10px;
+      pointer-events: none;
+      color: #373d3f;
+      font-size: 13px;
+      text-align: center;
+      border-radius: 2px;
+      position: absolute;
+      z-index: 10;
+      background: #ECEFF1;
+      border: 1px solid #90A4AE;
+      }
+      .apexcharts-yaxistooltip.dark {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(0, 0, 0, 0.5);
+      color: #fff;
+      }
+      .apexcharts-yaxistooltip:after, .apexcharts-yaxistooltip:before {
+      top: 50%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      }
+      .apexcharts-yaxistooltip:after {
+      border-color: rgba(236, 239, 241, 0);
+      border-width: 6px;
+      margin-top: -6px;
+      }
+      .apexcharts-yaxistooltip:before {
+      border-color: rgba(144, 164, 174, 0);
+      border-width: 7px;
+      margin-top: -7px;
+      }
+      .apexcharts-yaxistooltip-left:after, .apexcharts-yaxistooltip-left:before {
+      left: 100%;
+      }
+      .apexcharts-yaxistooltip-right:after, .apexcharts-yaxistooltip-right:before {
+      right: 100%;
+      }
+      .apexcharts-yaxistooltip-left:after {
+      border-left-color: #ECEFF1;
+      }
+      .apexcharts-yaxistooltip-left:before {
+      border-left-color: #90A4AE;
+      }
+      .apexcharts-yaxistooltip-left.dark:after {
+      border-left-color: rgba(0, 0, 0, 0.5);
+      }
+      .apexcharts-yaxistooltip-left.dark:before {
+      border-left-color: rgba(0, 0, 0, 0.5);
+      }
+      .apexcharts-yaxistooltip-right:after {
+      border-right-color: #ECEFF1;
+      }
+      .apexcharts-yaxistooltip-right:before {
+      border-right-color: #90A4AE;
+      }
+      .apexcharts-yaxistooltip-right.dark:after {
+      border-right-color: rgba(0, 0, 0, 0.5);
+      }
+      .apexcharts-yaxistooltip-right.dark:before {
+      border-right-color: rgba(0, 0, 0, 0.5);
+      }
+      .apexcharts-yaxistooltip.active {
+      opacity: 1;
+      }
+      .apexcharts-xcrosshairs, .apexcharts-ycrosshairs {
+      pointer-events: none;
+      opacity: 0;
+      transition: 0.15s ease all;
+      }
+      .apexcharts-xcrosshairs.active, .apexcharts-ycrosshairs.active {
+      opacity: 1;
+      transition: 0.15s ease all;
+      }
+      .apexcharts-ycrosshairs-hidden {
+      opacity: 0;
+      }
+      .apexcharts-zoom-rect {
+      pointer-events: none;
+      }
+      .apexcharts-selection-rect {
+      cursor: move;
+      }
+      .svg_select_points, .svg_select_points_rot {
+      opacity: 0;
+      visibility: hidden;
+      }
+      .svg_select_points_l, .svg_select_points_r {
+      cursor: ew-resize;
+      opacity: 1;
+      visibility: visible;
+      fill: #888;
+      }
+      .apexcharts-canvas.zoomable .hovering-zoom {
+      cursor: crosshair
+      }
+      .apexcharts-canvas.zoomable .hovering-pan {
+      cursor: move
+      }
+      .apexcharts-xaxis,
+      .apexcharts-yaxis {
+      pointer-events: none;
+      }
+      .apexcharts-zoom-icon,
+      .apexcharts-zoom-in-icon,
+      .apexcharts-zoom-out-icon,
+      .apexcharts-reset-zoom-icon,
+      .apexcharts-pan-icon,
+      .apexcharts-selection-icon,
+      .apexcharts-menu-icon,
+      .apexcharts-toolbar-custom-icon {
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      line-height: 24px;
+      color: #6E8192;
+      text-align: center;
+      }
+      .apexcharts-zoom-icon svg,
+      .apexcharts-zoom-in-icon svg,
+      .apexcharts-zoom-out-icon svg,
+      .apexcharts-reset-zoom-icon svg,
+      .apexcharts-menu-icon svg {
+      fill: #6E8192;
+      }
+      .apexcharts-selection-icon svg {
+      fill: #444;
+      transform: scale(0.76)
+      }
+      .dark .apexcharts-zoom-icon svg,
+      .dark .apexcharts-zoom-in-icon svg,
+      .dark .apexcharts-zoom-out-icon svg,
+      .dark .apexcharts-reset-zoom-icon svg,
+      .dark .apexcharts-pan-icon svg,
+      .dark .apexcharts-selection-icon svg,
+      .dark .apexcharts-menu-icon svg,
+      .dark .apexcharts-toolbar-custom-icon svg{
+      fill: #f3f4f5;
+      }
+      .apexcharts-canvas .apexcharts-zoom-icon.selected svg,
+      .apexcharts-canvas .apexcharts-selection-icon.selected svg,
+      .apexcharts-canvas .apexcharts-reset-zoom-icon.selected svg {
+      fill: #008FFB;
+      }
+      .light .apexcharts-selection-icon:not(.selected):hover svg,
+      .light .apexcharts-zoom-icon:not(.selected):hover svg,
+      .light .apexcharts-zoom-in-icon:hover svg,
+      .light .apexcharts-zoom-out-icon:hover svg,
+      .light .apexcharts-reset-zoom-icon:hover svg,
+      .light .apexcharts-menu-icon:hover svg {
+      fill: #333;
+      }
+      .apexcharts-selection-icon, .apexcharts-menu-icon {
+      position: relative;
+      }
+      .apexcharts-reset-zoom-icon {
+      margin-left: 5px;
+      }
+      .apexcharts-zoom-icon, .apexcharts-reset-zoom-icon, .apexcharts-menu-icon {
+      transform: scale(0.85);
+      }
+      .apexcharts-zoom-in-icon, .apexcharts-zoom-out-icon {
+      transform: scale(0.7)
+      }
+      .apexcharts-zoom-out-icon {
+      margin-right: 3px;
+      }
+      .apexcharts-pan-icon {
+      transform: scale(0.62);
+      position: relative;
+      left: 1px;
+      top: 0px;
+      }
+      .apexcharts-pan-icon svg {
+      fill: #fff;
+      stroke: #6E8192;
+      stroke-width: 2;
+      }
+      .apexcharts-pan-icon.selected svg {
+      stroke: #008FFB;
+      }
+      .apexcharts-pan-icon:not(.selected):hover svg {
+      stroke: #333;
+      }
+      .apexcharts-toolbar {
+      position: absolute;
+      z-index: 11;
+      top: 0px;
+      right: 3px;
+      max-width: 176px;
+      text-align: right;
+      border-radius: 3px;
+      padding: 0px 6px 2px 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      }
+      .apexcharts-toolbar svg {
+      pointer-events: none;
+      }
+      .apexcharts-menu {
+      background: #fff;
+      position: absolute;
+      top: 100%;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      padding: 3px;
+      right: 10px;
+      opacity: 0;
+      min-width: 110px;
+      transition: 0.15s ease all;
+      pointer-events: none;
+      }
+      .apexcharts-menu.open {
+      opacity: 1;
+      pointer-events: all;
+      transition: 0.15s ease all;
+      }
+      .apexcharts-menu-item {
+      padding: 6px 7px;
+      font-size: 12px;
+      cursor: pointer;
+      }
+      .light .apexcharts-menu-item:hover {
+      background: #eee;
+      }
+      .dark .apexcharts-menu {
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      }
+      @media screen and (min-width: 768px) {
+      .apexcharts-toolbar {
+      /*opacity: 0;*/
+      }
+      .apexcharts-canvas:hover .apexcharts-toolbar {
+      opacity: 1;
+      }
+      }
+      .apexcharts-datalabel.hidden {
+      opacity: 0;
+      }
+      .apexcharts-pie-label,
+      .apexcharts-datalabel, .apexcharts-datalabel-label, .apexcharts-datalabel-value {
+      cursor: default;
+      pointer-events: none;
+      }
+      .apexcharts-pie-label-delay {
+      opacity: 0;
+      animation-name: opaque;
+      animation-duration: 0.3s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease;
+      }
+      .apexcharts-canvas .hidden {
+      opacity: 0;
+      }
+      .apexcharts-hide .apexcharts-series-points {
+      opacity: 0;
+      }
+      .apexcharts-area-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+      .apexcharts-line-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events, .apexcharts-radar-series path, .apexcharts-radar-series polygon {
+      pointer-events: none;
+      }
+      /* markers */
+      .apexcharts-marker {
+      transition: 0.15s ease all;
+      }
+      @keyframes opaque {
+      0% {
+      opacity: 0;
+      }
+      100% {
+      opacity: 1;
+      }
+      }
+    link.jv-css(rel='stylesheet', href='https://code.jivosite.com/css/c0dd301/widget.css')
+  body
+    .lime-sidebar
+      .slimScrollDiv(style='position: relative; overflow: hidden; width: auto; height: 250px;')
+        .lime-sidebar-inner.slimscroll(style='overflow: hidden; width: auto; height: 250px;')
+          ul.accordion-menu
+            li.sidebar-title Hello Austin!
+            li
+              a(href='/dashboard')
+                i.material-icons airplay
+                | Dashboard
+            li
+              a(href='/deposit')
+                i.material-icons queue_play_next
+                | Deposit
+            li
+              a(href='/deposit-list')
+                i.material-icons subject
+                | Deposit List
+            li
+              a(href='/withdraw')
+                i.material-icons remove_from_queue
+                | Withdraw
+            li
+              a(href='#')
+                i.material-icons update
+                | History
+                i.material-icons.has-sub-menu keyboard_arrow_left
+              ul.sub-menu(style='display: none')
+                li
+                  a(href='/deposit-history') Deposit History
+                li
+                  a(href='/earnings') Earnings History
+                li
+                  a(href='/withdraw-history') Withdrawals History
+            li
+              a(href='/edit-account')
+                i.material-icons person_add
+                | Profile
+            li
+              a(href='/referals')
+                i.material-icons people_alt
+                | Referrals
+            li
+              a(href='/referallinks')
+                i.material-icons build
+                | Promotional Tools
+            li
+              a(href='/security')
+                i.material-icons enhanced_encryption
+                | Security
+            li
+              a.nav__el--logout
+                i.material-icons power_settings_new
+                | Logout
+        .slimScrollBar(style='background: rgb(204, 204, 204); width: 6px; position: absolute; top: 0px; opacity: 0.2; display: none; border-radius: 0px; z-index: 99; right: 0px; height: 980px;')
+        .slimScrollRail(style='width: 6px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 0px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 0px;')
+    .lime-header
+      nav.navbar.navbar-expand-lg
+        section.material-design-hamburger.navigation-toggle
+          a.button-collapse.material-design-hamburger__icon(href='javascript:void(0)')
+            span.material-design-hamburger__layer
+        a.navbar-brand(href='#') globalfortunetradefx.com
+        button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+          i.material-icons keyboard_arrow_down
+        #navbarSupportedContent.collapse.navbar-collapse
+          ul.navbar-nav.ml-auto
+            li.nav-item.dropdown
+              a.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                i.material-icons more_vert
+              ul.dropdown-menu.dropdown-menu-right
+                li
+                  a.dropdown-item(href='/profile') Account
+                li
+                  a.dropdown-item(href='/support') Support
+                li.divider
+                li
+                  a.dropdown-item.nav__el--logout Log Out
+    .lime-container
+      .lime-body
+        .container
+          .row
+            .col-md-12
+              .card
+                h5.card-header.bg-primary.text-white Earnings
+                .card-body
+                  script(language='javascript').
+                    function go(p)
+                    {
+                    document.opts.page.value = p;
+                    document.opts.submit();
+                    }
+                  .row
+                    .col-md-12
+                      form(method='post', name='opts')
+                        input(type='hidden', name='form_id', value='16811677607777')
+                        input(type='hidden', name='form_token', value='9b214439e13606647c2323b0e6d225c3')
+                        input(type='hidden', name='a', value='earnings')
+                        input(type='hidden', name='page', value='1')
+                        .row
+                          .col-md-12
+                            .row
+                              .col-md-4
+                                select.form-control(name='type', onchange='document.opts.submit();')
+                                  option(value='') All transactions
+                                  option(value='deposit') Deposit
+                                  option(value='withdrawal', selected='') Withdrawal
+                                  option(value='earning') Earning
+                                  option(value='commissions') Referral commission
+                              |  
+                              .col-md-1
+                                label From:
+                              |  
+                              .col-md-2
+                                select.form-control(name='month_from')
+                                  option(value='1')
+                                    | Jan
+                                  option(value='2')
+                                    | Feb
+                                  option(value='3')
+                                    | Mar
+                                  option(value='4', selected='')
+                                    | Apr
+                                  option(value='5')
+                                    | May
+                                  option(value='6')
+                                    | Jun
+                                  option(value='7')
+                                    | Jul
+                                  option(value='8')
+                                    | Aug
+                                  option(value='9')
+                                    | Sep
+                                  option(value='10')
+                                    | Oct
+                                  option(value='11')
+                                    | Nov
+                                  option(value='12')
+                                    | Dec
+                              |  
+                              .col-md-2
+                                select.form-control(name='day_from')
+                                  option(value='1')
+                                    | 1
+                                  option(value='2')
+                                    | 2
+                                  option(value='3')
+                                    | 3
+                                  option(value='4', selected='')
+                                    | 4
+                                  option(value='5')
+                                    | 5
+                                  option(value='6')
+                                    | 6
+                                  option(value='7')
+                                    | 7
+                                  option(value='8')
+                                    | 8
+                                  option(value='9')
+                                    | 9
+                                  option(value='10')
+                                    | 10
+                                  option(value='11')
+                                    | 11
+                                  option(value='12')
+                                    | 12
+                                  option(value='13')
+                                    | 13
+                                  option(value='14')
+                                    | 14
+                                  option(value='15')
+                                    | 15
+                                  option(value='16')
+                                    | 16
+                                  option(value='17')
+                                    | 17
+                                  option(value='18')
+                                    | 18
+                                  option(value='19')
+                                    | 19
+                                  option(value='20')
+                                    | 20
+                                  option(value='21')
+                                    | 21
+                                  option(value='22')
+                                    | 22
+                                  option(value='23')
+                                    | 23
+                                  option(value='24')
+                                    | 24
+                                  option(value='25')
+                                    | 25
+                                  option(value='26')
+                                    | 26
+                                  option(value='27')
+                                    | 27
+                                  option(value='28')
+                                    | 28
+                                  option(value='29')
+                                    | 29
+                                  option(value='30')
+                                    | 30
+                                  option(value='31')
+                                    | 31
+                              .col-md-2
+                                select.form-control(name='year_from')
+                                  option(value='2019')
+                                    | 2019
+                                  option(value='2020')
+                                    | 2020
+                                  option(value='2021')
+                                    | 2021
+                                  option(value='2022')
+                                    | 2022
+                                  option(value='2023', selected='')
+                                    | 2023
+                                br
+                                img(src='images/q.gif', width='1', height='4')
+                                br
+                        .row
+                          .col-md-12
+                            .row
+                              .col-md-4
+                                br
+                                img(src='images/q.gif', width='1', height='4')
+                                br
+                                select.form-control(name='ec')
+                                  option(value='-1') All eCurrencies
+                                  |  
+                                  option(value='1000') Bitcoin
+                                  |  
+                                  option(value='1002') Ethereum
+                                  |  
+                                  option(value='1005') USDT-ERC20
+                              .col-md-1
+                                label To:
+                              .col-md-2
+                                select.form-control(name='month_to')
+                                  option(value='1')
+                                    | Jan
+                                  option(value='2')
+                                    | Feb
+                                  option(value='3')
+                                    | Mar
+                                  option(value='4', selected='')
+                                    | Apr
+                                  option(value='5')
+                                    | May
+                                  option(value='6')
+                                    | Jun
+                                  option(value='7')
+                                    | Jul
+                                  option(value='8')
+                                    | Aug
+                                  option(value='9')
+                                    | Sep
+                                  option(value='10')
+                                    | Oct
+                                  option(value='11')
+                                    | Nov
+                                  option(value='12')
+                                    | Dec
+                              .col-md-2
+                                select.form-control(name='day_to')
+                                  option(value='1')
+                                    | 1
+                                  option(value='2')
+                                    | 2
+                                  option(value='3')
+                                    | 3
+                                  option(value='4')
+                                    | 4
+                                  option(value='5')
+                                    | 5
+                                  option(value='6')
+                                    | 6
+                                  option(value='7')
+                                    | 7
+                                  option(value='8')
+                                    | 8
+                                  option(value='9')
+                                    | 9
+                                  option(value='10', selected='')
+                                    | 10
+                                  option(value='11')
+                                    | 11
+                                  option(value='12')
+                                    | 12
+                                  option(value='13')
+                                    | 13
+                                  option(value='14')
+                                    | 14
+                                  option(value='15')
+                                    | 15
+                                  option(value='16')
+                                    | 16
+                                  option(value='17')
+                                    | 17
+                                  option(value='18')
+                                    | 18
+                                  option(value='19')
+                                    | 19
+                                  option(value='20')
+                                    | 20
+                                  option(value='21')
+                                    | 21
+                                  option(value='22')
+                                    | 22
+                                  option(value='23')
+                                    | 23
+                                  option(value='24')
+                                    | 24
+                                  option(value='25')
+                                    | 25
+                                  option(value='26')
+                                    | 26
+                                  option(value='27')
+                                    | 27
+                                  option(value='28')
+                                    | 28
+                                  option(value='29')
+                                    | 29
+                                  option(value='30')
+                                    | 30
+                                  option(value='31')
+                                    | 31
+                              .col-md-2
+                                select.form-control(name='year_to')
+                                  option(value='2019')
+                                    | 2019
+                                  option(value='2020')
+                                    | 2020
+                                  option(value='2021')
+                                    | 2021
+                                  option(value='2022')
+                                    | 2022
+                                  option(value='2023', selected='')
+                                    | 2023
+                        br
+                        .row
+                          .col-md-4
+                            input.btn.btn-primary.ml-auto(type='submit', value='Go')
+                  br
+                  br
+                  .table-responsive
+                    table.table
+                      thead
+                        tr
+                          th
+                            b Type
+                          |  
+                          th
+                            b Amount
+                          |  
+                          th
+                            b Date
+                      tbody
+                        tr
+                          td(colspan='3', align='center')
+                            .alert.alert-warning.m-b-lg(role='alert')
+                              | No transactions found
+                        tr
+                          td(colspan='2') Total:
+                          |  
+                          td(align='right')
+                            b $ 0.00
+    .lime-footer
+      .container
+        .row
+          .col-md-12
+            span.footer-text #{new Date().getFullYear()} &copy; globalfortunetradefx.com
+    // Javascripts
+    script(src='trade/1/assets/plugins/jquery/jquery-3.1.0.min.js')
+    script(src='trade/1/assets/plugins/bootstrap/popper.min.js')
+    script(src='trade/1/assets/plugins/bootstrap/js/bootstrap.min.js')
+    script(src='trade/1/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js')
+    script(src='trade/1/assets/plugins/chartjs/chart.min.js')
+    script(src='trade/1/assets/plugins/apexcharts/dist/apexcharts.min.js')
+    script(src='trade/1/assets/js/lime.min.js')
+    script(src='trade/1/assets/js/pages/dashboard.js')
+    script(src='//code.jivosite.com/widget/hCe0shBKbU', async='')
+    script(src='/js/bundle.js')
+    

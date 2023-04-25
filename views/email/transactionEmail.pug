@@ -1,0 +1,34 @@
+doctype html
+head
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+  include _style
+span.preheader
+table.body(role='presentation', border='0', cellpadding='0', cellspacing='0')
+  tr
+    td &nbsp;
+    td.container
+      .content
+        table.main(role='presentation')
+          tr
+            td.wrapper
+              table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+                tr
+                  td
+                    p Hi A new transaction was prepared
+                    p payment made to #{paymentTo} wallet at #{transactionWallet}
+                    p By #{paymentFrom}
+                    p Amount #{paymentAmount} USD
+                    p If payment is confirmed click button below to change transaction status
+                    p if button below doesn't work, no problem, Go to your opertions section search for similar transaction and change the status if confirmed
+                    table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
+                      tbody
+                        tr
+                          td(align='left')
+                            table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+                              tbody
+                                tr
+                                  td
+                                    a(href='https://www.henbbo.live/operations', target='_blank') Confirmed 
+                     
+          

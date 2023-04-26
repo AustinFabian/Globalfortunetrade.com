@@ -59,18 +59,20 @@ exports.signUp = catchAsync(async (req, res) => {
 
   var admin = await User.findOne({ role: "admin" });
 
-  var emailData = {
-    email: admin.email,
-    user: newUser.userName
+  if (admin) {
+    var emailData = {
+      email: admin.email,
+      user: newUser.userName,
+    };
+
+    // console.log(emailData)
+
+    const url = `${req.protocol}://${req.get("host")}/users`;
+
+    await new UserEmail(newUser).sendWelcome();
+
+    await new Email(emailData, url).newAccountCreated();
   }
-
-  // console.log(emailData)
-
-  const url = `${req.protocol}://${req.get('host')}/users`
-
-  await new UserEmail(newUser).sendWelcome();
-
-  await new Email(emailData,url).newAccountCreated();
 
   createSendToken(newUser, 201, req, res);
 });

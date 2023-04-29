@@ -16,10 +16,9 @@ exports.createWithdrawal = catchAsync(async (req, res, next) => {
     address: req.body.address,
     amount: req.body.amount,
     date: req.body.date,
-    img: req.body.img,
   });
 
-  const url = `${req.protocol}://${req.get("host")}/operations`;
+  const url = `${req.protocol}://${req.get("host")}/transactions`;
 
   var admin = await User.findOne({ role: "admin" });
 
@@ -28,7 +27,7 @@ exports.createWithdrawal = catchAsync(async (req, res, next) => {
   admin.paymentTo = req.body.payment;
   admin.paymentAmount = req.body.amount;
 
-  await new Email(admin, url).sendNewWithdrawal();
+  await new Email(admin,url).sendNewWithdrawal();
 
   res.status(201).json({
     status: "success",
@@ -40,35 +39,35 @@ exports.createWithdrawal = catchAsync(async (req, res, next) => {
 
 // update withdrawal Status function
 exports.updateWithdrawalStatus = catchAsync(async (req, res, next) => {
-  if (req.body.state === "successful") {
+  if (req.body.status === "successful") {
     var document = await Withdrawals.find({ _id: req.params.id });
 
-    var documentStatus = document[0].state;
+    var documentStatus = document[0].status;
 
-    if (documentStatus === req.body.state) {
+    if (documentStatus === req.body.status) {
       return next(new AppError("Transaction SuccessFul already", 404));
     }
-  } else if (req.body.state === "rejected") {
+  } else if (req.body.status === "rejected") {
     var document = await Withdrawals.find({ _id: req.params.id });
 
-    var documentStatus = document[0].state;
+    var documentStatus = document[0].status;
 
-    if (documentStatus === req.body.state) {
+    if (documentStatus === req.body.status) {
       return next(new AppError("Transaction Rejected already", 404));
     }
-  } else if (req.body.state === "pending") {
+  } else if (req.body.status === "pending") {
     var document = await Withdrawals.find({ _id: req.params.id });
 
-    var documentStatus = document[0].state;
+    var documentStatus = document[0].status;
 
-    if (documentStatus === req.body.state) {
+    if (documentStatus === req.body.status) {
       return next(new AppError("Transaction pending already", 404));
     }
   }
 
   // when transaction is scuccesful
 
-  if (req.body.state === "successful") {
+  if (req.body.status === "successful") {
     var withdrawal = await Withdrawals.find({ _id: req.params.id });
 
     const doc = await Withdrawals.findByIdAndUpdate(req.params.id, req.body, {
@@ -81,11 +80,11 @@ exports.updateWithdrawalStatus = catchAsync(async (req, res, next) => {
 
     var user = await User.find({ _id: withdrawal[0].transactionId });
 
-    var sum = (user[0].worth -= withdrawal[0].amount);
+    var sum = (user[0].balance -= withdrawal[0].amount);
 
-    var userNewWorth = await User.findByIdAndUpdate(
+    var userNewbalance = await User.findByIdAndUpdate(
       user[0].id,
-      { worth: sum },
+      { balance: sum },
       {
         new: true,
       }
@@ -93,25 +92,25 @@ exports.updateWithdrawalStatus = catchAsync(async (req, res, next) => {
 
     const url = `${req.protocol}://www.${req.get("host")}/operationsWithdrawal`;
 
-    user[0].withdrawalAmount = withdrawal[0].equal;
+    user[0].withdrawalAmount = withdrawal[0].amount;
 
     // Send success Mail to the User
-    await new UserEmail(user[0], url).sendWithdrawalSuccessful();
+    await new UserEmail(user[0]).sendWithdrawalSuccessful();
   }
 
   // when transaction is rejected
 
-  if (req.body.state === "rejected") {
+  if (req.body.status === "rejected") {
     var withdrawal = await Withdrawals.find({ _id: req.params.id });
 
-    if (withdrawal[0].state === "successful") {
+    if (withdrawal[0].status === "successful") {
       var user = await User.find({ _id: withdrawal[0].transactionId });
 
-      var sum = (user[0].worth += withdrawal[0].amount);
+      var sum = (user[0].balance += withdrawal[0].amount);
 
-      var userNewWorth = await User.findByIdAndUpdate(
+      var userNewbalance = await User.findByIdAndUpdate(
         user[0].id,
-        { worth: sum },
+        { balance: sum },
         {
           new: true,
         }
@@ -128,25 +127,25 @@ exports.updateWithdrawalStatus = catchAsync(async (req, res, next) => {
 
     const url = `${req.protocol}://www.${req.get("host")}/operationsWithdrawal`;
 
-    user[0].withdrawalAmount = withdrawal[0].equal;
+    user[0].withdrawalAmount = withdrawal[0].amount;
 
     // Send rejected Mail to the User
-    await new UserEmail(user[0], url).sendWithdrawalRejected();
+    await new UserEmail(user[0]).sendWithdrawalRejected();
   }
 
   // when transaction is pended
 
-  if (req.body.state === "pending") {
+  if (req.body.status === "pending") {
     var withdrawal = await Withdrawals.find({ _id: req.params.id });
 
-    if (withdrawal[0].state === "successful") {
+    if (withdrawal[0].status === "successful") {
       var user = await User.find({ _id: withdrawal[0].transactionId });
 
-      var sum = (user[0].worth += withdrawal[0].amount);
+      var sum = (user[0].balance += withdrawal[0].amount);
 
-      var userNewWorth = await User.findByIdAndUpdate(
+      var userNewbalance = await User.findByIdAndUpdate(
         user[0].id,
-        { worth: sum },
+        { balance: sum },
         {
           new: true,
         }
@@ -163,10 +162,10 @@ exports.updateWithdrawalStatus = catchAsync(async (req, res, next) => {
 
     const url = `${req.protocol}://www.${req.get("host")}/operationsWithdrawal`;
 
-    user[0].withdrawalAmount = withdrawal[0].equal;
+    user[0].withdrawalAmount = withdrawal[0].amount;
 
     // Send Pending Mail to the User
-    await new UserEmail(user[0], url).sendWithdrawalPending();
+    await new UserEmail(user[0]).sendWithdrawalPending();
   }
 
   res.status(200).json({

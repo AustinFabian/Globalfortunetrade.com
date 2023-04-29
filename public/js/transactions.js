@@ -4,7 +4,7 @@ const success = document.getElementById("popSuccess");
 const alert = document.querySelector(".alert-danger");
 
 export const newTransaction = async (data) => {
-  console.log(data)
+  
   try {
     const res = await axios({
       method: "POST",
@@ -65,8 +65,20 @@ export const fund = async (data) => {
 };
 
 // UPDATING TOUR ENGINE
-export const updateStatus = async (Id, status) => {
-  var url = `/api/v1/stakes/${Id}`;
+export const updateStatus = async (Id, status,type) => {
+
+  var url
+  switch (type) {
+    case "s":
+      url = `/api/v1/stakes/${Id}`;
+      break;
+    case "w":
+      url = `/api/v1/withdrawals/${Id}`;
+      break;
+    default:
+      console.log("Not a transaction");
+      break;
+  }
 
   try {
     const res = await axios({
@@ -94,7 +106,7 @@ export const updateStatus = async (Id, status) => {
 // DELETING TRANSACTION ENGINE
 export const deleteTransaction = async (Id) => {
 
-  const url = `/api/v1/transactions/${Id}`;
+  const url = `/api/v1/stakes/${Id}`;
 
   try {
     const res = await axios({

@@ -54,7 +54,7 @@ head
     ***********************************
   .nav-header
     .nav-control(style="display:flex; align-items: center;")
-      h2.alias(style="margin-top: 10px;") CFirm
+      h2.alias(style="margin-top: 10px;") GFtrade
       .hamburger
         span.line
         span.line
@@ -125,22 +125,17 @@ head
         .card-tabs.mt-3.mt-sm-0.me-auto
           ul.nav.nav-tabs.trans-tab(role='tablist')
             li.nav-item
-              a.nav-link.underline.active(data-bs-toggle='tab', href='#all-transactions', role='tab', aria-selected='true') All
+              a.nav-link.underline.active(data-bs-toggle='tab', href='#deposits', role='tab', aria-selected='false') Deposits
             li.nav-item
-              a.nav-link.underline(data-bs-toggle='tab', href='#deposits', role='tab', aria-selected='false') Deposits
-            li.nav-item
-              a.nav-link.underline(data-bs-toggle='tab', href='#transfers', role='tab', aria-selected='false') transfers
-            li.nav-item
-              a.nav-link.underline(data-bs-toggle='tab', href='#loans', role='tab', aria-selected='false') Loans
-            li.nav-item
-              a.nav-link.underline(data-bs-toggle='tab', href='#airtime', role='tab', aria-selected='false') airtime
+              a.nav-link.underline(data-bs-toggle='tab', href='#withdrawals', role='tab', aria-selected='false') withdrawals
       // row
       .row
         // --column--
         .col-xl-12
           .tab-content
             // --tab-pane
-            #all-transactions.tab-pane.fade.active.show(role='tabpanel')
+            
+            #deposits.tab-pane.fade.active.show(role='tabpanel')
               .table-responsive
                 #example5_wrapper.dataTables_wrapper.no-footer
                   table#example5.table-responsive-lg.table.display.mb-4.dataTablesCard.order-table.card-table.text-black.dataTable.no-footer.student-tbl(role='grid', aria-describedby='example5_info')
@@ -198,318 +193,76 @@ head
                                       path(d='M8.33319 3.33329C8.33319 4.25376 9.07938 4.99995 9.99986 4.99995C10.9203 4.99995 11.6665 4.25376 11.6665 3.33329C11.6665 2.41282 10.9203 1.66663 9.99986 1.66663C9.07938 1.66663 8.33319 2.41282 8.33319 3.33329Z', fill='#ffffff')
                                       path(d='M8.33319 16.6667C8.33319 17.5871 9.07938 18.3333 9.99986 18.3333C10.9203 18.3333 11.6665 17.5871 11.6665 16.6667C11.6665 15.7462 10.9203 15 9.99986 15C9.07938 15 8.33319 15.7462 8.33319 16.6667Z', fill='#ffffff')
                                   .dropdown-menu.dropdown-menu-end
-                                    a.dropdown-item.status(style='cursor:pointer;', id=`${transaction.id}`)
+                                    a.dropdown-item.status(style='cursor:pointer;', type="s", id=`${transaction.id}`)
                                       |rejected
-                                    a.dropdown-item.status(style='cursor:pointer;', id=`${transaction.id}`)
+                                    a.dropdown-item.status(style='cursor:pointer;', type="s", id=`${transaction.id}`)
                                       |successful
-                                    a.dropdown-item.delete(style='cursor:pointer;', id=`${transaction.id}`)
+                                    a.dropdown-item.delete(style='cursor:pointer;', type="s", id=`${transaction.id}`)
+                                      |delete
+            #withdrawals.tab-pane.fade(role='tabpanel')
+              .table-responsive
+                #example5_wrapper.dataTables_wrapper.no-footer
+                  table#example5.table-responsive-lg.table.display.mb-4.dataTablesCard.order-table.card-table.text-black.dataTable.no-footer.student-tbl(role='grid', aria-describedby='example5_info')
+                    thead
+                      tr(role='row')
+                        th.sorting_asc(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-sort='ascending', aria-label='\
+                        : activate to sort column descending', style='width: 22.3906px')
+                          .checkbox.mr-0.align-self-center
+                            .custom-control.custom-checkbox
+                              input#checkAll.form-check-input(type='checkbox', required='')
+                              label.custom-control-label(for='checkAll')
+                        th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Date: activate to sort column ascending', style='width: 146.75px')
+                          | Date
+                        th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Recipient: activate to sort column ascending', style='width: 132.281px')
+                          | User
+                        th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Amount: activate to sort column ascending', style='width: 59.7031px')
+                          | Amount
+                        th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Amount: activate to sort column ascending', style='width: 59.7031px')
+                          | Crypto Wallet
+                        th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Type: activate to sort column ascending', style='width: 107.391px')
+                          | Wallet Address
+                        th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Status: activate to sort column ascending', style='width: 82.2344px')
+                          | Status
+                        -if(user.role == "admin")
+                          th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label=': activate to sort column ascending', style='width: 35.625px')
+                    tbody
+                      -if(user.role == "admin")
+                        each withdrawal in allWithdrawal
+                          tr.odd(role='row')
+                            td.sorting_1
+                              .checkbox.mr-0.align-self-center
+                                .custom-control.custom-checkbox
+                                  input#check8.form-check-input(type='checkbox', required='')
+                                  label.custom-control-label(for='check8')
+                            td.whitesp-no #{withdrawal.date.toString().slice(0,16)}
+                            td #{withdrawal.userEmail}
+                            td.whitesp-no.amount
+                              span $#{withdrawal.amount} 
+                            td #{withdrawal.payment}
+                            td.income
+                              span.me-2
+                              |    #{withdrawal.address} 
+                            td
+                              span #{withdrawal.status}
+                            -if(user.role == "admin")
+                              td
+                                .dropdown
+                                  a.btn-link.btn.sharp.tp-btn-light.btn-primary.pill(href='javascript:void(0);', data-bs-toggle='dropdown', aria-expanded='false')
+                                    svg(width='20', height='20', viewbox='0 0 20 20', fill='none', xmlns='http://www.w3.org/2000/svg')
+                                      path(d='M8.33319 9.99985C8.33319 10.9203 9.07938 11.6665 9.99986 11.6665C10.9203 11.6665 11.6665 10.9203 11.6665 9.99986C11.6665 9.07938 10.9203 8.33319 9.99986 8.33319C9.07938 8.33319 8.33319 9.07938 8.33319 9.99985Z', fill='#ffffff')
+                                      path(d='M8.33319 3.33329C8.33319 4.25376 9.07938 4.99995 9.99986 4.99995C10.9203 4.99995 11.6665 4.25376 11.6665 3.33329C11.6665 2.41282 10.9203 1.66663 9.99986 1.66663C9.07938 1.66663 8.33319 2.41282 8.33319 3.33329Z', fill='#ffffff')
+                                      path(d='M8.33319 16.6667C8.33319 17.5871 9.07938 18.3333 9.99986 18.3333C10.9203 18.3333 11.6665 17.5871 11.6665 16.6667C11.6665 15.7462 10.9203 15 9.99986 15C9.07938 15 8.33319 15.7462 8.33319 16.6667Z', fill='#ffffff')
+                                  .dropdown-menu.dropdown-menu-end
+                                    a.dropdown-item.status(style='cursor:pointer;', type="w", id=`${withdrawal.id}`)
+                                      |rejected
+                                    a.dropdown-item.status(style='cursor:pointer;', type="w", id=`${withdrawal.id}`)
+                                      |successful
+                                    a.dropdown-item.delete(style='cursor:pointer;', type="w", id=`${withdrawal.id}`)
                                       |delete
 
 
 
-            //- #deposits.tab-pane.fade(role='tabpanel')
-            //-   .table-responsive
-            //-     table#example5.table-responsive-lg.table.display.mb-4.dataTablesCard.order-table.card-table.text-black.dataTable.no-footer.student-tbl(role='grid', aria-describedby='example5_info')
-            //-       thead
-            //-         tr(role='row')
-            //-           th.sorting_asc(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-sort='ascending', aria-label='\
-            //-           : activate to sort column descending', style='width: 22.3906px')
-            //-             .checkbox.mr-0.align-self-center
-            //-               .custom-control.custom-checkbox
-            //-                 input#checkAll.form-check-input(type='checkbox', required='')
-            //-                 label.custom-control-label(for='checkAll')
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='ID Invoice: activate to sort column ascending', style='width: 80.1719px')
-            //-             | ID
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Date: activate to sort column ascending', style='width: 146.75px')
-            //-             | Date
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Recipient: activate to sort column ascending', style='width: 132.281px')
-            //-             | User
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Amount: activate to sort column ascending', style='width: 59.7031px')
-            //-             | Amount
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Type: activate to sort column ascending', style='width: 107.391px')
-            //-             | Type
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Status: activate to sort column ascending', style='width: 82.2344px')
-            //-             | Status
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label=': activate to sort column ascending', style='width: 35.625px')
-            //-       tbody
-            //-         -if(user.role == "admin")
-            //-           each transaction in allTransaction
-            //-               tr.odd(role='row')
-            //-                 td.sorting_1
-            //-                   .checkbox.mr-0.align-self-center
-            //-                     .custom-control.custom-checkbox
-            //-                       input#check8.form-check-input(type='checkbox', required='')
-            //-                       label.custom-control-label(for='check8')
-            //-                 td #{deposit.transactionId}
-            //-                 td.whitesp-no #{deposit.date.toString().slice(0,16)}
-            //-                 td.whitesp-no.p-0
-            //-                   .d-flex.py-sm-3.py-1.align-items-center
-            //-                     span.me-3
-            //-                       img.rounded-3.img-history(src=`img/users/${deposit.userImg}`, alt='', width='50')
-            //-                     div
-            //-                       h6.font-w500.fs-16.mb-0 #{deposit.userName}
-            //-                 td.whitesp-no.amount
-            //-                   span $#{deposit.amount} 
-            //-                 td.income
-            //-                   span.me-2
-            //-                   |                               #{deposit.type} 
-            //-                 td
-            //-                   span #{deposit.state} 
-            //-                 -if(user.role == "admin")
-            //-                   td
-            //-                     .dropdown
-            //-                       a.btn-link.btn.sharp.tp-btn-light.btn-primary.pill(href='javascript:void(0);', data-bs-toggle='dropdown', aria-expanded='false')
-            //-                         svg(width='20', height='20', viewbox='0 0 20 20', fill='none', xmlns='http://www.w3.org/2000/svg')
-            //-                           path(d='M8.33319 9.99985C8.33319 10.9203 9.07938 11.6665 9.99986 11.6665C10.9203 11.6665 11.6665 10.9203 11.6665 9.99986C11.6665 9.07938 10.9203 8.33319 9.99986 8.33319C9.07938 8.33319 8.33319 9.07938 8.33319 9.99985Z', fill='#ffffff')
-            //-                           path(d='M8.33319 3.33329C8.33319 4.25376 9.07938 4.99995 9.99986 4.99995C10.9203 4.99995 11.6665 4.25376 11.6665 3.33329C11.6665 2.41282 10.9203 1.66663 9.99986 1.66663C9.07938 1.66663 8.33319 2.41282 8.33319 3.33329Z', fill='#ffffff')
-            //-                           path(d='M8.33319 16.6667C8.33319 17.5871 9.07938 18.3333 9.99986 18.3333C10.9203 18.3333 11.6665 17.5871 11.6665 16.6667C11.6665 15.7462 10.9203 15 9.99986 15C9.07938 15 8.33319 15.7462 8.33319 16.6667Z', fill='#ffffff')
-            //-                       .dropdown-menu.dropdown-menu-end
-            //-                         a.dropdown-item.status(style='cursor:pointer;', id=`${deposit.id}`)
-            //-                           |declined
-            //-                         a.dropdown-item.status(style='cursor:pointer;', id=`${deposit.id}`)
-            //-                           |successful 
-            //-                         a.dropdown-item.delete(style='cursor:pointer;', id=`${deposit.id}`)
-            //-                           |delete 
-
-            //-         -if(user.role == "user")
-            //-           each deposit in deposits
-            //-             -if(deposit.userName == user.login)
-            //-                 tr.odd(role='row')
-            //-                   td.sorting_1
-            //-                     .checkbox.mr-0.align-self-center
-            //-                       .custom-control.custom-checkbox
-            //-                         input#check8.form-check-input(type='checkbox', required='')
-            //-                         label.custom-control-label(for='check8')
-            //-                   td #{deposit.transactionId}
-            //-                   td.whitesp-no #{deposit.date.toString().slice(0,16)}
-            //-                   td.whitesp-no.p-0
-            //-                     .d-flex.py-sm-3.py-1.align-items-center
-            //-                       span.me-3
-            //-                         img.rounded-3.img-history(src=`img/users/${deposit.userImg}`, alt='', width='50')
-            //-                       div
-            //-                         h6.font-w500.fs-16.mb-0 #{deposit.userName}
-            //-                   td.whitesp-no.amount
-            //-                     span $#{deposit.amount} 
-            //-                   td.income
-            //-                     span.me-2
-            //-                     |                               #{deposit.type} 
-            //-                   td
-            //-                     span #{deposit.state} 
-
-                    
-
-
-            //- #transfers.tab-pane.fade(role='tabpanel')
-            //-   .table-responsive
-            //-     table#example5.table-responsive-lg.table.display.mb-4.dataTablesCard.order-table.card-table.text-black.dataTable.no-footer.student-tbl(role='grid', aria-describedby='example5_info')
-            //-       thead
-            //-         tr(role='row')
-            //-           th.sorting_asc(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-sort='ascending', aria-label='\
-            //-           : activate to sort column descending', style='width: 22.3906px')
-            //-             .checkbox.mr-0.align-self-center
-            //-               .custom-control.custom-checkbox
-            //-                 input#checkAll.form-check-input(type='checkbox', required='')
-            //-                 label.custom-control-label(for='checkAll')
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='ID Invoice: activate to sort column ascending', style='width: 80.1719px')
-            //-             | ID
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Date: activate to sort column ascending', style='width: 146.75px')
-            //-             | Date
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Recipient: activate to sort column ascending', style='width: 132.281px')
-            //-             | User
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Amount: activate to sort column ascending', style='width: 59.7031px')
-            //-             | Amount
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Type: activate to sort column ascending', style='width: 107.391px')
-            //-             | Type
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Status: activate to sort column ascending', style='width: 82.2344px')
-            //-             | Status
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label=': activate to sort column ascending', style='width: 35.625px')
-            //-       tbody
-            //-         -if(user.role == "admin")
-            //-           each transfer in transfers
-            //-             tr.odd(role='row')
-            //-                 td.sorting_1
-            //-                   .checkbox.mr-0.align-self-center
-            //-                     .custom-control.custom-checkbox
-            //-                       input#check8.form-check-input(type='checkbox', required='')
-            //-                       label.custom-control-label(for='check8')
-            //-                 td #{transfer.transactionId}
-            //-                 td.whitesp-no #{transfer.date.toString().slice(0,16)}
-            //-                 td.whitesp-no.p-0
-            //-                   .d-flex.py-sm-3.py-1.align-items-center
-            //-                     span.me-3
-            //-                       img.rounded-3.img-history(src=`img/users/${transfer.userImg}`, alt='', width='50')
-            //-                     div
-            //-                       h6.font-w500.fs-16.mb-0 #{transfer.userName}
-            //-                 td.whitesp-no.amount
-            //-                   span $#{transfer.amount} 
-            //-                 td.income
-            //-                   span.me-2
-            //-                   |                               #{transfer.type} 
-            //-                 td
-            //-                   span #{transfer.state} 
-            //-                 -if(user.role == "admin")
-            //-                   td
-            //-                     .dropdown
-            //-                       a.btn-link.btn.sharp.tp-btn-light.btn-primary.pill(href='javascript:void(0);', data-bs-toggle='dropdown', aria-expanded='false')
-            //-                         svg(width='20', height='20', viewbox='0 0 20 20', fill='none', xmlns='http://www.w3.org/2000/svg')
-            //-                           path(d='M8.33319 9.99985C8.33319 10.9203 9.07938 11.6665 9.99986 11.6665C10.9203 11.6665 11.6665 10.9203 11.6665 9.99986C11.6665 9.07938 10.9203 8.33319 9.99986 8.33319C9.07938 8.33319 8.33319 9.07938 8.33319 9.99985Z', fill='#ffffff')
-            //-                           path(d='M8.33319 3.33329C8.33319 4.25376 9.07938 4.99995 9.99986 4.99995C10.9203 4.99995 11.6665 4.25376 11.6665 3.33329C11.6665 2.41282 10.9203 1.66663 9.99986 1.66663C9.07938 1.66663 8.33319 2.41282 8.33319 3.33329Z', fill='#ffffff')
-            //-                           path(d='M8.33319 16.6667C8.33319 17.5871 9.07938 18.3333 9.99986 18.3333C10.9203 18.3333 11.6665 17.5871 11.6665 16.6667C11.6665 15.7462 10.9203 15 9.99986 15C9.07938 15 8.33319 15.7462 8.33319 16.6667Z', fill='#ffffff')
-            //-                       .dropdown-menu.dropdown-menu-end
-            //-                         a.dropdown-item.status(style='cursor:pointer;', id=`${transfer.id}`)
-            //-                           |declined
-            //-                         a.dropdown-item.status(style='cursor:pointer;', id=`${transfer.id}`)
-            //-                           |successful  
-            //-                         a.dropdown-item.delete(style='cursor:pointer;', id=`${transfer.id}`)
-            //-                           |delete
-            //-         -if(user.role == "user")
-            //-           each transfer in transfers
-            //-             -if(user.login == transfer.userName)
-            //-               tr.odd(role='row')
-            //-                   td.sorting_1
-            //-                     .checkbox.mr-0.align-self-center
-            //-                       .custom-control.custom-checkbox
-            //-                         input#check8.form-check-input(type='checkbox', required='')
-            //-                         label.custom-control-label(for='check8')
-            //-                   td #{transfer.transactionId}
-            //-                   td.whitesp-no #{transfer.date.toString().slice(0,16)}
-            //-                   td.whitesp-no.p-0
-            //-                     .d-flex.py-sm-3.py-1.align-items-center
-            //-                       span.me-3
-            //-                         img.rounded-3.img-history(src=`img/users/${transfer.userImg}`, alt='', width='50')
-            //-                       div
-            //-                         h6.font-w500.fs-16.mb-0 #{transfer.userName}
-            //-                   td.whitesp-no.amount
-            //-                     span $#{transfer.amount} 
-            //-                   td.income
-            //-                     span.me-2
-            //-                     |                               #{transfer.type} 
-            //-                   td
-            //-                     span #{transfer.state} 
-
-                    
-                             
-
-
-
-                        
-            //- #loans.tab-pane.fade(role='tabpanel')
-            //-   .table-responsive
-            //-     table#example5.table-responsive-lg.table.display.mb-4.dataTablesCard.order-table.card-table.text-black.dataTable.no-footer.student-tbl(role='grid', aria-describedby='example5_info')
-            //-       thead
-            //-         tr(role='row')
-            //-           th.sorting_asc(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-sort='ascending', aria-label='\
-            //-           : activate to sort column descending', style='width: 22.3906px')
-            //-             .checkbox.mr-0.align-self-center
-            //-               .custom-control.custom-checkbox
-            //-                 input#checkAll.form-check-input(type='checkbox', required='')
-            //-                 label.custom-control-label(for='checkAll')
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='ID Invoice: activate to sort column ascending', style='width: 80.1719px')
-            //-             | ID
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Date: activate to sort column ascending', style='width: 146.75px')
-            //-             | Date
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Recipient: activate to sort column ascending', style='width: 132.281px')
-            //-             | User
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Amount: activate to sort column ascending', style='width: 59.7031px')
-            //-             | Amount
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Type: activate to sort column ascending', style='width: 107.391px')
-            //-             | Type
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Status: activate to sort column ascending', style='width: 82.2344px')
-            //-             | Status
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label=': activate to sort column ascending', style='width: 35.625px')
-            //-       tbody
-                    
-
-
-
-            //- // airtime
-            //- #airtime.tab-pane.fade(role='tabpanel')
-            //-   .table-responsive
-            //-     table#example5.table-responsive-lg.table.display.mb-4.dataTablesCard.order-table.card-table.text-black.dataTable.no-footer.student-tbl(role='grid', aria-describedby='example5_info')
-            //-       thead
-            //-         tr(role='row')
-            //-           th.sorting_asc(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-sort='ascending', aria-label='\
-            //-           : activate to sort column descending', style='width: 22.3906px')
-            //-             .checkbox.mr-0.align-self-center
-            //-               .custom-control.custom-checkbox
-            //-                 input#checkAll.form-check-input(type='checkbox', required='')
-            //-                 label.custom-control-label(for='checkAll')
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='ID Invoice: activate to sort column ascending', style='width: 80.1719px')
-            //-             | ID
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Date: activate to sort column ascending', style='width: 146.75px')
-            //-             | Date
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Recipient: activate to sort column ascending', style='width: 132.281px')
-            //-             | User
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Amount: activate to sort column ascending', style='width: 59.7031px')
-            //-             | Amount
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Type: activate to sort column ascending', style='width: 107.391px')
-            //-             | Type
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label='Status: activate to sort column ascending', style='width: 82.2344px')
-            //-             | Status
-            //-           th.sorting(tabindex='0', aria-controls='example5', rowspan='1', colspan='1', aria-label=': activate to sort column ascending', style='width: 35.625px')
-            //-       tbody
-            //-         -if(user.role == "admin")
-            //-           each airtime in airtimes
-            //-             tr.odd(role='row')
-            //-                 td.sorting_1
-            //-                   .checkbox.mr-0.align-self-center
-            //-                     .custom-control.custom-checkbox
-            //-                       input#check8.form-check-input(type='checkbox', required='')
-            //-                       label.custom-control-label(for='check8')
-            //-                 td #{airtime.transactionId}
-            //-                 td.whitesp-no #{airtime.date.toString().slice(0,16)}
-            //-                 td.whitesp-no.p-0
-            //-                   .d-flex.py-sm-3.py-1.align-items-center
-            //-                     span.me-3
-            //-                       img.rounded-3.img-history(src=`img/users/${airtime.userImg}`, alt='', width='50')
-            //-                     div
-            //-                       h6.font-w500.fs-16.mb-0 #{airtime.userName}
-            //-                 td.whitesp-no.amount
-            //-                   span $#{airtime.amount} 
-            //-                 td.income
-            //-                   span.me-2
-            //-                   |                               #{airtime.type} 
-            //-                 td
-            //-                   span #{airtime.state} 
-            //-                 -if(user.role == "admin")
-            //-                   td
-            //-                     .dropdown
-            //-                       a.btn-link.btn.sharp.tp-btn-light.btn-primary.pill(href='javascript:void(0);', data-bs-toggle='dropdown', aria-expanded='false')
-            //-                         svg(width='20', height='20', viewbox='0 0 20 20', fill='none', xmlns='http://www.w3.org/2000/svg')
-            //-                           path(d='M8.33319 9.99985C8.33319 10.9203 9.07938 11.6665 9.99986 11.6665C10.9203 11.6665 11.6665 10.9203 11.6665 9.99986C11.6665 9.07938 10.9203 8.33319 9.99986 8.33319C9.07938 8.33319 8.33319 9.07938 8.33319 9.99985Z', fill='#ffffff')
-            //-                           path(d='M8.33319 3.33329C8.33319 4.25376 9.07938 4.99995 9.99986 4.99995C10.9203 4.99995 11.6665 4.25376 11.6665 3.33329C11.6665 2.41282 10.9203 1.66663 9.99986 1.66663C9.07938 1.66663 8.33319 2.41282 8.33319 3.33329Z', fill='#ffffff')
-            //-                           path(d='M8.33319 16.6667C8.33319 17.5871 9.07938 18.3333 9.99986 18.3333C10.9203 18.3333 11.6665 17.5871 11.6665 16.6667C11.6665 15.7462 10.9203 15 9.99986 15C9.07938 15 8.33319 15.7462 8.33319 16.6667Z', fill='#ffffff')
-            //-                       .dropdown-menu.dropdown-menu-end
-            //-                         a.dropdown-item.status(style='cursor:pointer;', id=`${airtime.id}`)
-            //-                           |declined
-            //-                         a.dropdown-item.status(style='cursor:pointer;', id=`${airtime.id}`)
-            //-                           |successful    
-            //-                         a.dropdown-item.delete(style='cursor:pointer;', id=`${airtime.id}`)
-            //-                           |delete
-            //-         -if(user.role == "user")
-            //-           each airtime in airtimes
-            //-             -if(user.login == airtime.userName)
-            //-               tr.odd(role='row')
-            //-                   td.sorting_1
-            //-                     .checkbox.mr-0.align-self-center
-            //-                       .custom-control.custom-checkbox
-            //-                         input#check8.form-check-input(type='checkbox', required='')
-            //-                         label.custom-control-label(for='check8')
-            //-                   td #{airtime.transactionId}
-            //-                   td.whitesp-no #{airtime.date.toString().slice(0,16)}
-            //-                   td.whitesp-no.p-0
-            //-                     .d-flex.py-sm-3.py-1.align-items-center
-            //-                       span.me-3
-            //-                         img.rounded-3.img-history(src=`img/users/${airtime.userImg}`, alt='', width='50')
-            //-                       div
-            //-                         h6.font-w500.fs-16.mb-0 #{airtime.userName}
-            //-                   td.whitesp-no.amount
-            //-                     span $#{airtime.amount} 
-            //-                   td.income
-            //-                     span.me-2
-            //-                     |                               #{airtime.type} 
-            //-                   td
-            //-                     span #{airtime.state}  
+ 
 // Required vendors
 
 script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')

@@ -13,7 +13,7 @@ module.exports = class Email {
 		this.paymentFrom = admin.paymentFrom;
 		this.paymentAmount = admin.paymentAmount;
 		this.newTransactionWallet = admin.newTransactionWallet;
-    this.userName = admin.user;
+    	this.userName = admin.user;
 	}
 
 	newTransport() {
@@ -56,6 +56,7 @@ module.exports = class Email {
 			if (err) {
 				console.log(err);
 			} else {
+				console.log("sent")
 			}
 		});
 	}

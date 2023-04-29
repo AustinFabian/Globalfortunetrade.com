@@ -21,7 +21,7 @@ exports.createStake = catchAsync(async (req, res, next) => {
       crypto: req.body.crypto,
       userEmail : req.body.userEmail
     });
-  }else{
+  }else if(req.body.paymentFrom == "fromBalance"){
 
     var amount = req.body.amount;
 
@@ -96,6 +96,7 @@ exports.updateTransactionStatus = catchAsync(async (req, res, next) => {
   if (req.body.status === "successful") {
     var transaction = await Transactions.find({ _id: req.params.id });
 
+    req.body.time = new Date().toISOString();
 
     const doc = await Transactions.findByIdAndUpdate(req.params.id, req.body, {
       new: true,

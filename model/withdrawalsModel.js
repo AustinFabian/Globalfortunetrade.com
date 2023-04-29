@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const withdrawalSchema = new mongoose.Schema({
-  state: {
+  status: {
     type: String,
-    default: "Prepeared",
+    default: "pending",
   },
   transactionId: {
     type: String,
@@ -25,9 +25,6 @@ const withdrawalSchema = new mongoose.Schema({
   },
   amount: {
     type: Number,
-  },
-  img: {
-    type: String,
   },
 });
 

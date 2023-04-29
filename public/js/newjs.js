@@ -10,14 +10,14 @@ import { deleteWallet } from "./walletStake";
 import { createRoi } from "./walletStake";
 import { deleteRoi } from "./walletStake";
 
+import { withdraw } from "./withdrawal";
+
 import { newTransaction } from "./transactions";
 import { updateSettings } from "./updateSettings";
 import { updateUserData } from "./updateSettings";
 import { sendMail } from "./mail";
 import { deleteTransaction } from "./transactions";
 import { deleteClient } from "./updateSettings";
-import { notifyClient } from "./notifications";
-import { deleteNotification } from "./notifications";
 // import {deactivateSelf} from './updateSettings'
 
 // DOM ELEMENTS
@@ -34,6 +34,7 @@ const alertMsg = document.querySelector(".alertMsg-danger");
 const success = document.getElementById("popSuccess");
 const userPasswordForm = document.getElementById("form-user-password");
 const fundAccount = document.querySelector("#fund-account");
+const withdrawal = document.querySelector(".withdrawalForm");
 // -----------------------------------------------------
 const support = document.querySelector(".contacts-form");
 
@@ -179,64 +180,44 @@ $(".updateUser").click(function () {
 });
 
 // USER UPDATE PROFILE
-if($(".userProfile"))
-    $(".submit").click(function(){
-      var name = $(".user-name").val();
-      var address = $(".address").val();
-      var city = $(".city").val();
-      var state = $(".state").val();
-      var zip = $(".zip").val();
+if ($(".userProfile"))
+  $(".submit").click(function () {
+    var name = $(".user-name").val();
+    var address = $(".address").val();
+    var city = $(".city").val();
+    var state = $(".state").val();
+    var zip = $(".zip").val();
 
-      const select = document.getElementById("country");
-      const country = select.options[select.selectedIndex].textContent;
+    const select = document.getElementById("country");
+    const country = select.options[select.selectedIndex].textContent;
 
-      var passwordConfirm = $(".confirm-password").val();
-      var password = $(".password").val();
-      var btcAdress = $(".btc-adress").val();
-      var ethAddress = $(".eth-address").val();
-      var usdtAddress = $(".usdt-address").val();
-      var email = $(".email").val();
-      var id = $(this).attr("userId");
-      
-      if(password === passwordConfirm){
-        var data = {name,address,city,state,zip,passwordConfirm,btcAdress,ethAddress,usdtAddress,email,country}
-        updateUserData(id,data)
-      }else{
-        alert("Passwords are not the same")
-      }
-      
-    })
+    var passwordConfirm = $(".confirm-password").val();
+    var password = $(".password").val();
+    var btcAdress = $(".btc-adress").val();
+    var ethAddress = $(".eth-address").val();
+    var usdtAddress = $(".usdt-address").val();
+    var email = $(".email").val();
+    var id = $(this).attr("userId");
 
-$(".notification_dropdown").click(function () {
-  $(".nav-link").addClass("nav-link-remove-dot");
-});
-
-// NOTIFY USER
-$(".notify").click(function () {
-  var id = $(this).attr("userId");
-  var notification = $(this)
-    .parent()
-    .siblings(".notification")
-    .find("textarea")
-    .val();
-  var img = $(this).attr("img");
-  var login = $(this).attr("login");
-  var data = {
-    userId: id,
-    createdAt: new Date().toUTCString(),
-    notification: notification,
-    userImg: img,
-    userLogin: login,
-  };
-
-  notifyClient(data);
-});
-
-// DELETE NOTIFICATION
-$(".delNot").click(function () {
-  var iD = $(this).attr("mongoId");
-  deleteNotification(iD);
-});
+    if (password === passwordConfirm) {
+      var data = {
+        name,
+        address,
+        city,
+        state,
+        zip,
+        passwordConfirm,
+        btcAdress,
+        ethAddress,
+        usdtAddress,
+        email,
+        country,
+      };
+      updateUserData(id, data);
+    } else {
+      alert("Passwords are not the same");
+    }
+  });
 
 // DELETE USER
 
@@ -292,18 +273,16 @@ if (deposit) {
     var userBalance = $(".depositDetails").attr("userBalance");
     var amount = $(".depositDetails").attr("amount");
 
-    if(!$(".details").is(":checked")){
-      alert("Choose a plan please")
-      $(this).prop( "checked", false );
-    }else{
-
-      if(parseInt(userBalance) < parseInt(amount)){
-        alert("Your Balance is less than amount")
-        $(this).prop( "checked", false );
+    if (!$(".details").is(":checked")) {
+      alert("Choose a plan please");
+      $(this).prop("checked", false);
+    } else {
+      if (parseInt(userBalance) < parseInt(amount)) {
+        alert("Your Balance is less than amount");
+        $(this).prop("checked", false);
       }
       $(".depositDetails").attr("paymentFrom", "fromBalance");
     }
-
   });
 
   deposit.addEventListener("submit", function (e) {
@@ -323,9 +302,54 @@ if (deposit) {
     if (!$(".wallet").is(":checked") && !$(".fromBalance").is(":checked")) {
       alert("select payment method");
     } else {
-      
-        walletStake(plan, userId, address, amount, time, ROI, duration, crypto, userEmail,depositFrom);
-  
+      walletStake(
+        plan,
+        userId,
+        address,
+        amount,
+        time,
+        ROI,
+        duration,
+        crypto,
+        userEmail,
+        depositFrom
+      );
+    }
+  });
+}
+
+// WITHDRAWAL
+
+if (withdrawal) {
+  $(".withdraw").click(function () {
+    var id = $(this).attr("userId");
+    var amount = $(".amount").val();
+    var time = new Date().toISOString();
+    const select = document.getElementById("wallet");
+    const wallet = select.options[select.selectedIndex].textContent;
+    var forWallet = wallet.split(" ");
+    var address = forWallet[1];
+    var crypto = forWallet[0].replace(":", "");
+
+    var balance = parseFloat(
+      document.getElementById("userBalance").textContent
+    );
+
+    if (wallet.includes("Choose") || wallet === "") {
+      alert(
+        "Wallet address not defined. Please go to your account Profile and enter it."
+      );
+    } else if (balance < amount) {
+      alert("❌❌Insufficient funds.❗");
+    } else if (amount <= 0) {
+      alert("❌❌Invalid Amount❗");
+    } else {
+      var ans = prompt(
+        `You are about to withdraw $${amount} to your ${crypto} wallet with address ${address}, Enter Yes to confirm or No to reject`
+      );
+      if (ans.toLowerCase() === "yes") {
+        withdraw(id, address, crypto, amount, time);
+      }
     }
   });
 }
@@ -369,16 +393,27 @@ if (fundAccount) {
 // CHANGE TRANSACTION STATUS
 $(".status").click(function () {
   var id = $(this).attr("id");
+  var type = $(this).attr("type");
   var state = $(this).text();
 
-  updateStatus(id, state);
+  updateStatus(id, state, type);
 });
 
 // DELETE TRANSACTION
 $(".delete").click(function () {
   var id = $(this).attr("id");
-  deleteTransaction(id);
-  console.log(id);
+  var type = $(this).attr("type");
+  
+  switch (type) {
+    case "s":
+      deleteTransaction(id);
+      break;
+    case "w":
+      deleteWithdraw(id);
+    break;
+    default:
+      break;
+  }
 });
 
 if (userUpdateForm) {
@@ -403,8 +438,7 @@ if (support) {
     var message = document.getElementById("message").value;
     var who = "";
 
-    
-      sendMail({ email, name, message },who);
+    sendMail({ email, name, message }, who);
   });
 }
 

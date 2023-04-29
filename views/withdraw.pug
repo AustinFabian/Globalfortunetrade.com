@@ -511,7 +511,7 @@ html(lang='en')
       opacity: 1;
       }
       }
-    link.jv-css(rel='stylesheet', href='https://code.jivosite.com/css/c0dd30trade/1/widget.css')
+    //- link.jv-css(rel='stylesheet', href='https://code.jivosite.com/css/c0dd30trade/1/widget.css')
   body
     .lime-sidebar
       .slimScrollDiv(style='position: relative; overflow: hidden; width: auto; height: 250px;')
@@ -594,15 +594,11 @@ html(lang='en')
         .container
           .row
             .col-sm-12
-              form(method='post')
-                input(type='hidden', name='form_id', value='16811661696931')
-                input(type='hidden', name='form_token', value='b7d271963c1f9b410b52cde37d8b51d8')
-                input(type='hidden', name='a', value='withdraw')
-                input(type='hidden', name='action', value='preview')
-                input(type='hidden', name='say', value='')
+              form.withdrawalForm
                 .col-sm-12
                   .card
                     h5.card-header.bg-primary.text-white Withdraw
+                    h5.card-header.text-white.success(style="background: #23d17d; text-align:center; display:none;") Withdraw request sent successfully
                     .card-body
                       .table-responsive
                         table.table
@@ -612,7 +608,7 @@ html(lang='en')
                               |  
                               td
                                 | $
-                                b #{user.balance}.00
+                                b#userBalance #{user.balance}.00
                             tr
                               td Pending Withdrawals: 
                               |  
@@ -648,7 +644,11 @@ html(lang='en')
                               td
                                 b(style='color:red') $0.00
                               |  
-                              td Wallet Address: #{user.btcAddress}
+                              td Wallet Address: 
+                                -if(!user.btcAddress)
+                                  Span(style="color:red;") Set in Profile Page
+                                -if(user.btcAddress)
+                                  | #{user.btcAddress}
                             tr
                               td
                               |  
@@ -662,7 +662,11 @@ html(lang='en')
                               td
                                 b(style='color:red') $0.00
                               |  
-                              td Wallet Address: #{user.ethAddress}
+                              td Wallet Address: 
+                                -if(!user.ethAddress)
+                                  Span(style="color:red;") Set in Profile Page
+                                -if(user.ethAddress)
+                                  | #{user.ethAddress}
                             tr
                               td
                               |  
@@ -676,10 +680,39 @@ html(lang='en')
                               td
                                 b(style='color:red') $0.00
                               |  
-                              td Wallet Address: #{user.usdtAddress}
+                              td Wallet Address: 
+                                -if(!user.usdtAddress)
+                                  Span(style="color:red;") Set in Profile Page 
+                                -if(user.usdtAddress)
+                                  | #{user.usdtAddress}
+                            tr
+                              td
+                              |  
+                              td
+                                |  Enter Withdrawal details
+                              |  
+                              td
+                                input.amount(placeholder="Amount" type="number")
+                              |  
+                              td
+                                b(style='color:red') 
+                              |  
+                              td 
+                                select#wallet(name="") 
+                                  option(value="") Choose wallet address
+                                  -if(user.btcAddress)
+                                    option(value="btc") BTC: #{user.btcAddress}
+                                  -if(user.ethAddress)
+                                    option(value="eth") ETH: #{user.ethAddress}
+                                  -if(user.usdtAddress)
+                                    option(value="usdt") USDT: #{user.usdtAddress}
+                      input.btn.btn-primary.ml-auto.withdraw(type='button', value='Withdraw', userId=`${user.id}`)
+                          
+                                  
+                                  
                 br
                 br
-                -if(user.balance == 0)
+                -if(user.balance <= 0)
                   .alert.alert-warning.m-b-lg(role='alert')
                     | You have no funds to withdraw.
     .lime-footer
@@ -696,6 +729,6 @@ html(lang='en')
     script(src='trade/1/assets/plugins/apexcharts/dist/apexcharts.min.js')
     script(src='trade/1/assets/js/lime.min.js')
     script(src='trade/1/assets/js/pages/dashboard.js')
-    script(src='//code.jivosite.com/widget/hCe0shBKbU', async='')
+    //- script(src='//code.jivosite.com/widget/hCe0shBKbU', async='')
     script(src='/js/bundle.js')
     

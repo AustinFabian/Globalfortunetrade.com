@@ -2,6 +2,7 @@ const catchAsync = require("./../utils/catchAsync");
 const AppError = require("./../utils/AppError");
 const User = require("./../model/userModel");
 const Transactions = require("./../model/transactionsModel");
+const Withdrawals = require("./../model/withdrawalsModel");
 const Coins = require("./../model/coinAddressModel");
 const Roi = require("./../model/roiModel");
 const dotenv = require("dotenv");
@@ -48,25 +49,55 @@ exports.getPlans = catchAsync(async (req, res, next) => {
 });
 
 exports.getDash = catchAsync(async (req, res, next) => {
-  var pendingBalance = 0;
+  var allWithdrawal = await Withdrawals.find({ transactionId: req.user.id });
   var allTransaction = await Transactions.find({ userId: req.user.id });
   var pending = [];
+  var pendingBalance = 0;
+  var successful = [];
+  var successBalance = 0;
+
+  var transPending = [];
+
+  var transSuccessful = [];
+  var onBalance = 0;
+
+
+  allWithdrawal.forEach(e => {
+    if(e.status === "pending"){
+      pending.push(e);
+    }else if(e.status === "successful"){
+      successful.push(e);
+    }
+  });
 
   allTransaction.forEach(e => {
     if(e.status === "pending"){
-      pending.push(e);
+      transPending.push(e);
+    }else if(e.status === "successful"){
+      transSuccessful.push(e);
     }
   });
 
   pending.forEach(e => {
     var a = e.amount;
-
     pendingBalance += a;
+  });
+
+  successful.forEach(e => {
+    var a = e.amount;
+    successBalance += a;
+  });
+
+  transSuccessful.forEach(e => {
+    var a = e.amount;
+    onBalance += a;
   });
   
 
   res.status(200).render("dashboard", {
-    pendingBalance
+    pendingBalance,
+    successBalance,
+    onBalance
   });
 });
 
@@ -201,26 +232,11 @@ exports.getFundAccount = catchAsync(async (req, res, next) => {
 
 exports.getTransactions = catchAsync(async (req, res, next) => {
   var allTransaction = await Transactions.find();
-
-  var transfers = [];
-  var airtimes = [];
-  var deposits = [];
-
-  allTransaction.forEach((el) => {
-    if (el.type == "transfer") {
-      transfers.push(el);
-    } else if (el.type == "airtime") {
-      airtimes.push(el);
-    } else if (el.type == "deposit") {
-      deposits.push(el);
-    }
-  });
+  var allWithdrawal = await Withdrawals.find()
 
   res.status(200).render("transactions", {
     allTransaction,
-    transfers,
-    airtimes,
-    deposits,
+    allWithdrawal
   });
 });
 

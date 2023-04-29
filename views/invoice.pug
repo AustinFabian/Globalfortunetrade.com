@@ -599,7 +599,7 @@ html(lang='en')
                 .card-body
                   br
                   br
-                  | Please send your payments to this #{transaction.address} account: 
+                  | Please send your payments to this #{transaction.crypto} address: 
                   b #{transaction.address}
                   br
                   br
@@ -637,14 +637,6 @@ html(lang='en')
                   br
                   br
                   form(name='spend', method='post')
-                    input(type='hidden', name='form_id', value='16816417952895')
-                    input(type='hidden', name='form_token', value='22f97901e46675e7cd07ae966ec8f829')
-                    input(type='hidden', name='a', value='deposit')
-                    input(type='hidden', name='action', value='confirm')
-                    input(type='hidden', name='type', value='process_1000')
-                    input(type='hidden', name='h_id', value='1')
-                    input(type='hidden', name='compound', value='')
-                    input(type='hidden', name='amount', value='100.00')
                     |  
                     .table-responsive
                       table.table

@@ -263,6 +263,7 @@ if (deposit) {
 
   $(".wallet").click(function () {
     var crypto = $(this).attr("crypto");
+    
     var address = $(this).attr("address");
     $(".depositDetails").attr("crypto", crypto);
     $(".depositDetails").attr("address", address);

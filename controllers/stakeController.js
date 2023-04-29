@@ -9,7 +9,8 @@ const UserEmail = require("./../utils/email");
 // createStake function
 exports.createStake = catchAsync(async (req, res, next) => {
   var user = await User.findOne({ _id: req.body.userId });
-  if(req.body.paymentFrom == "fromCrypto"){
+  
+  if(req.body.depositFrom == "fromCrypto"){
     const doc = await Transactions.create({
       plan: req.body.plan,
       userId: req.body.userId,
@@ -21,7 +22,7 @@ exports.createStake = catchAsync(async (req, res, next) => {
       crypto: req.body.crypto,
       userEmail : req.body.userEmail
     });
-  }else if(req.body.paymentFrom == "fromBalance"){
+  }else if(req.body.depositFrom == "fromBalance"){
 
     var amount = req.body.amount;
 
@@ -57,7 +58,7 @@ exports.createStake = catchAsync(async (req, res, next) => {
   admin.paymentTo = req.body.crypto;
   admin.paymentAmount = req.body.amount;
 
-  await new Email(admin, url).sendNewTransaction();
+  // await new Email(admin, url).sendNewTransaction();
 
   res.status(201).json({
     status: "success",

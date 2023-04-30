@@ -2,7 +2,6 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 
-
 // routes modules
 const errorController = require("./controllers/errorController");
 const viewRoute = require("./routes/viewRoute");
@@ -17,7 +16,7 @@ const emailRoute = require("./routes/emailRoute");
 const app = express();
 
 require("events").EventEmitter.defaultMaxListeners = 50;
-process.setMaxListeners(Infinity)
+process.setMaxListeners(Infinity);
 
 app.use(
   cors({
@@ -44,5 +43,3 @@ app.use("/", viewRoute);
 app.use(errorController);
 
 module.exports = app;
-
-
